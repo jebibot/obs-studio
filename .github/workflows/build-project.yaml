@@ -36,7 +36,7 @@ jobs:
               fi
               ;;
             push)
-              config_data=('codesign:false' 'notarize:false' 'package:true' 'config:Release')
+              config_data=('codesign:false' 'notarize:false' 'package:true' 'config:RelWithDebInfo')
               ;;
             workflow_dispatch)
               config_data=('codesign:true' 'notarize:false' 'package:false' 'config:RelWithDebInfo')
