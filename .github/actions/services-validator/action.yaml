@@ -95,7 +95,7 @@ runs:
         : Check for defunct services 📉
         python3 -u .github/scripts/utils.py/check-services.py
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: fromJSON(inputs.runServiceChecks)
       with:
         name: timestamps

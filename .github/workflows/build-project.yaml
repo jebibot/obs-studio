@@ -36,11 +36,7 @@ jobs:
               fi
               ;;
             push)
-              config_data=('codesign:true' 'notarize:false' 'package:true' 'config:RelWithDebInfo')
-              if [[ ${GITHUB_REF_NAME} =~ [0-9]+.[0-9]+.[0-9]+(-(rc|beta).+)? ]]; then
-                config_data[1]='notarize:true'
-                config_data[3]='config:Release'
-              fi
+              config_data=('codesign:false' 'notarize:false' 'package:true' 'config:Release')
               ;;
             workflow_dispatch)
               config_data=('codesign:true' 'notarize:false' 'package:false' 'config:RelWithDebInfo')
@@ -154,13 +150,13 @@ jobs:
           codesignPass: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
 
       - name: Upload Artifacts 📡
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: obs-studio-macos-${{ matrix.target }}-${{ needs.check-event.outputs.commitHash }}
           path: ${{ github.workspace }}/build_macos/obs-studio-*-macos-${{ steps.setup.outputs.cpuName }}.*
 
       - name: Upload Debug Symbol Artifacts 🪲
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ needs.check-event.outputs.config == 'Release' }}
         with:
           name: obs-studio-macos-${{ matrix.target }}-${{ needs.check-event.outputs.commitHash }}-dSYMs
@@ -216,20 +212,20 @@ jobs:
           package: ${{ fromJSON(needs.check-event.outputs.package) }}
 
       - name: Upload Source Tarball 🗜️
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ ! always() }}
         with:
           name: obs-studio-*-sources-${{ needs.check-event.outputs.commitHash }}
           path: ${{ github.workspace }}/build_x86_64/obs-studio-*-sources.*
 
       - name: Upload Artifacts 📡
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: obs-studio-ubuntu-22.04-x86_64-${{ needs.check-event.outputs.commitHash }}
           path: ${{ github.workspace }}/build_x86_64/obs-studio-*-x86_64-linux-gnu.*
 
       - name: Upload Debug Symbol Artifacts 🪲
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ fromJSON(needs.check-event.outputs.package) }}
         with:
           name: obs-studio-ubuntu-22.04-x86_64-${{ needs.check-event.outputs.commitHash }}-dbgsym
@@ -354,7 +350,7 @@ jobs:
           package: ${{ fromJSON(needs.check-event.outputs.package) }}
 
       - name: Upload Artifacts 📡
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: obs-studio-windows-x64-${{ needs.check-event.outputs.commitHash }}
           path: ${{ github.workspace }}/build_x64/obs-studio-*-windows-x64.zip

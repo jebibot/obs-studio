@@ -285,7 +285,7 @@ runs:
         popd
 
     - name: Upload Steam build logs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: steam-build-logs
         path: ${{ github.workspace }}/steam/build/*.log
